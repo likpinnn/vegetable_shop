@@ -64,4 +64,11 @@ class userContoller extends Controller
         }
     }
 
+
+    function logout(Request $request){
+        Auth::logout();
+
+        return redirect('/');
+    }
+
 }

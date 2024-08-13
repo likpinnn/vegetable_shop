@@ -8,6 +8,7 @@ Route::controller(userContoller::class)->group(function(){
     Route::post('/register/listing','register')->name('registerListing');
     Route::post('/register/verify','verify')->name('verifyListing');
     Route::post('/login','login')->name('loginListing');
+    Route::post('/logout','logout')->name('logout');
 });
 
 
