@@ -43,12 +43,12 @@
                         <a class="nav-link" href="{{route('index')}}">Home</a>
                      </li>
                      <li class="nav-item">
-                        <a class="nav-link" href="shop.html">Cart</a>
+                        <a class="nav-link" href="{{route('cart')}}">Cart</a>
                      </li>
                      
                      @auth
                         <li>
-                           <a class="nav-link" href="#">{{auth()->user()->email}}</a>
+                           <a class="nav-link" href="{{route('about')}}">{{auth()->user()->email}}</a>
                         </li>
                         <li class="nav-item">
                            <form action="{{route('logout')}}" method="post">

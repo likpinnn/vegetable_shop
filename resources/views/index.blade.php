@@ -108,11 +108,15 @@
                     @foreach ($listings as $listing)
                     <div class="col-md-3">
                         <div class="hover01 column">
-                           <figure><img src="{{$listing->image}}"></figure>
+                           <a href="{{route('buy',$listing->id)}}"><figure><img src="{{$listing->image}}"></figure></a>
                         </div>
                         <h3 class="harshal_text">{{$listing->p_name}}</h3>
                         <h3 class="rate_text">{{$listing->price}}</h3>
-                        <div class="read_bt_1"><a href="{{route('buy',$listing->id)}}">Buy Now</a></div>
+                        <form action="{{route('cart.store',$listing->id)}}" method="post">
+                           @csrf
+                           <div class="read_bt_1 justify-content-center"><button type="submit" name="index_add" class="btn btn-success">Add To Cart</button></div>
+                        </form>
+                        
                      </div>
                     @endforeach
                 </div>

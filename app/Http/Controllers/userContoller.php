@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Mail\verify;
+use App\Models\address;
+use App\Models\information;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +28,7 @@ class userContoller extends Controller
 
         Mail::to($user->email)->send(new verify($user));
         
-        return redirect("/verify/$user->email");
+        return redirect()->route('verify',["email" => $user->email]);
 
         
     }
@@ -42,7 +44,7 @@ class userContoller extends Controller
                     'status' => 'complete'
                 ]);
 
-                return redirect('/login')->with('success','');
+                return redirect()->route('login')->with('success','');
 
             }else{
                 return redirect()->back()->with('error','OTP is error');
@@ -56,11 +58,15 @@ class userContoller extends Controller
             'password' => 'required'
         ]);
 
+        $find = User::where('email',$form['email'])->first();
         
         if(Auth::attempt($form)){
+            if($find->status == 'pending'){
+                return redirect()->route('verify',["email" => $find->email]);
+            }
             return redirect('/')->with('success','');
         }else{
-            return redirect()->route('login');
+            return redirect()->route('login')->with('error','Email or Password is wrong');
         }
     }
 
@@ -69,6 +75,29 @@ class userContoller extends Controller
         Auth::logout();
 
         return redirect('/');
+    }
+
+    function information(Request $request){
+        $form = $request->validate([
+            'f_name' => 'required',
+            'l_name' => 'required',
+            'gender' => 'required',
+        ]);
+
+        $form2 = $request->validate([
+            'address_line_1' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'p_code' => 'required',
+        ]);
+        
+        $form['user_id'] = Auth::user()->id;
+        $form2['user_id'] = Auth::user()->id;
+
+        $info = information::create($form);
+        $address = address::create($form2);
+
+        return redirect('/')->with('success','');
     }
 
 }

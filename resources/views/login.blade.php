@@ -42,6 +42,9 @@
     <body>
         <div class="login-container">
             <h2>Login</h2>
+            @if(Session::has('error'))
+                <p style="color: red">{{Session::get('error')}}</p>
+            @endif
             <form action="{{route('loginListing')}}" method="POST">
                 @csrf
                 <input type="email" name="email" placeholder="Email">
