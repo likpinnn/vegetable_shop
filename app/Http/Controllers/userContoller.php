@@ -82,6 +82,7 @@ class userContoller extends Controller
             'f_name' => 'required',
             'l_name' => 'required',
             'gender' => 'required',
+            'phone' => 'required',
         ]);
 
         $form2 = $request->validate([

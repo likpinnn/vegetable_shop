@@ -19,6 +19,7 @@ Route::controller(itemController::class)->group(function(){
     Route::post('/cartstore/{id}','cart')->name('cart.store')->middleware(checkAuth::class);
     Route::delete('/cartremove/{id}','remove')->name('remove')->middleware(checkAuth::class);
     Route::post('/cartupdate/{id}','update')->name('update')->middleware(checkAuth::class);
+    Route::post('/checkout','checkout')->name('checkout')->middleware(checkAuth::class);
 });
 
 
@@ -29,7 +30,9 @@ Route::controller(pageContoller::class)->group(function(){
     Route::get('/verify/{email}','v_show')->name('verify');
     Route::get('/login','l_show')->name('login');
     Route::get('/information','i_show')->name('information');
-    Route::get('/about','about')->name('about');
+    Route::get('/about','about')->name('about')->middleware(checkAuth::class);;
     Route::get('/cart','c_show')->name('cart')->middleware(checkAuth::class);
+    Route::get('/cart_edit/{id}','c_edit')->name('cart.edit')->middleware(checkAuth::class);
+    Route::get('/address_create','address_create')->name('address.create')->middleware(checkAuth::class);
 });
 

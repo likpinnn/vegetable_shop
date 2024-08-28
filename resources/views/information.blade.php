@@ -22,7 +22,9 @@
             }
             
             .login-container select,
-            .login-container input[type="text"] {
+            .login-container input[type="text"], 
+            .login-container input[type="phone"] 
+            {
                 width: 50%;
                 padding: 10px;
                 margin: 10px 0;
@@ -60,10 +62,15 @@
                 @enderror
                 <select name="gender">
                     <option value="">Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
                 </select>
                 @error('gender')
+                    <p style="color: red">{{$message}}</p>
+                @enderror
+
+                <input type="phone" name="phone" placeholder="Phone Number" maxlength="10" pattern="[0-9]{3][0-9]{7}"> 
+                @error('phone')
                     <p style="color: red">{{$message}}</p>
                 @enderror
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\address;
 use App\Models\cart;
 use App\Models\information;
 use App\Models\item;
@@ -46,16 +47,38 @@ class pageContoller extends Controller
     }
 
     function about(){
+        $listings = information::where('user_id','=',Auth::id())->get();
+        $address = address::where('user_id','=',Auth::id())->get();
+        $cart = cart::where('user_id','=',Auth::id())->where('status','=','pending')->join('items','carts.item_id','=','items.id')->get();
         return view('about',[
-            'listings' => information::where('user_id','=',Auth::id())->first()
+            'listings' => $listings,
+            'cart' => $cart,
+            'addresses' => $address
         ]);
     }
 
     function c_show(){
-        $listings = cart::selectRaw('*,carts.id as newid')->where('user_id','=',Auth::id())->join('items','carts.item_id','=','items.id')->get();
+        $listings = cart::selectRaw('*,carts.id as newid')->where('user_id','=',Auth::id())->where('status','=','cart')->join('items','carts.item_id','=','items.id')->get();
+        $cart = cart::where('user_id','=',Auth::id())->where('status','=','cart')->sum('total_price');
+        $address = address::where('user_id','=',Auth::id())->get();
+        if(!$cart){
+            return view('cart',[
+                'listings' => 'No item in cart',
+            ]);
+        }
         return view('cart',[
-            'listings' => $listings
+            'listings' => $listings,
+            'total' => $cart,
+            'addresses' => $address
         ]); 
     }
+
+
+    function c_edit($id){
+        return view('editcart',[   
+            'listing' => cart::find($id)
+        ]);
+    }
+
 
 }

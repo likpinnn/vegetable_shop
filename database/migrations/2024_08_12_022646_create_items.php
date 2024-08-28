@@ -16,7 +16,10 @@ return new class extends Migration
             $table->string('image');
             $table->string('p_name');
             $table->decimal('quantity');
+            $table->string('category')->nullable();
+            $table->string('price_mass')->nullable();
             $table->decimal('price');
+            $table->string('sale')->default(0);
             $table->timestamps();
         });
     }

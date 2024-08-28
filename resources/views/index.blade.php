@@ -111,7 +111,7 @@
                            <a href="{{route('buy',$listing->id)}}"><figure><img src="{{$listing->image}}"></figure></a>
                         </div>
                         <h3 class="harshal_text">{{$listing->p_name}}</h3>
-                        <h3 class="rate_text">{{$listing->price}}</h3>
+                        <h3 class="rate_text">RM{{$listing->price}}(per kg)</h3>
                         <form action="{{route('cart.store',$listing->id)}}" method="post">
                            @csrf
                            <div class="read_bt_1 justify-content-center"><button type="submit" name="index_add" class="btn btn-success">Add To Cart</button></div>
@@ -234,4 +234,16 @@
        <!-- layout_border end -->
     </div>
  </div>
+
+@if (session()->has('cart'))
+    <script>
+       window.onload = function() {
+        alert("{{ session('cart') }}");
+       };
+      
+    </script>
+@endif
+
+
 @endsection
+

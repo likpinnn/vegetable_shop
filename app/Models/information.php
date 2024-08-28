@@ -15,6 +15,7 @@ class information extends Model
         'f_name',
         'l_name',
         'gender',
-        'user_id'
+        'user_id',
+        'phone'
     ];
 }

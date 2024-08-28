@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->integer('mass');
             $table->decimal('total_price', 10, 2);
+            $table->string('status', 20)->default('cart');
+            $table->integer('address_id')->nullable();
             $table->timestamps();
         });
     }

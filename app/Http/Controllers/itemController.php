@@ -15,7 +15,7 @@ class itemController extends Controller
             $price = $item->price;
             $mass = '1000';
 
-            $find = cart::where('user_id','=',Auth::id())->where('item_id','=', $item->id)->first();
+            $find = cart::where('user_id','=',Auth::id())->where('item_id','=', $item->id)->where('status','=', 'cart')->first();
             if($find){
                 $cart_id = $find->id;
                 $old_price = $find->total_price;
@@ -29,7 +29,7 @@ class itemController extends Controller
                    'mass' => $new_mass
                 ]);
 
-                return redirect('/')->with('success','Item added to cart');
+                return redirect('/')->with('cart','Item added to cart');
             }
 
             cart::create([
@@ -43,11 +43,11 @@ class itemController extends Controller
         }elseif(isset($_POST['add_to_cart'])){
             $item = item::find($id);
             $price = $item->price;
-            $multipe = $price/10;
+            $multipe = $price/1000;
             $mass = $request->mass;
             $total_price = $multipe * $mass;
 
-            $find = cart::where('user_id','=',Auth::id())->where('item_id','=', $item->id)->first();
+            $find = cart::where('user_id','=',Auth::id())->where('item_id','=', $item->id)->where('status','=', 'cart')->first();
             if($find){
                 $cart_id = $find->id;
                 $old_price = $find->total_price;
@@ -93,6 +93,9 @@ class itemController extends Controller
                 'total_price' => $new_price
             ]);
         }elseif(isset($_POST['minus'])){
+            if($id->mass <= 100){
+                $id->delete();
+            }
             $item = item::find($id->item_id);
             $price = $item->price/10;
             $new_mass = $id->mass - 100;
@@ -104,5 +107,16 @@ class itemController extends Controller
         }
 
         return redirect()->route('cart')->with('success','Item updated in cart');
+    }
+
+    function checkout(Request $request){
+        $cart = cart::where('user_id','=',Auth::id());
+        $address = $request->address;
+        $cart->update([
+            'status' => 'pending',
+            'address_id' => $address,
+        ]);
+
+        return redirect()->route('cart')->with('success','Order placed successfully');
     }
 }
