@@ -94,7 +94,7 @@
                 @error('p_code')
                     <p style="color: red">{{$message}}</p>
                 @enderror
-                <button type="submit">Submit</button><br><br>
+                <button type="submit" name="information">Submit</button><br><br>
             </form>
         </div>
     </body>

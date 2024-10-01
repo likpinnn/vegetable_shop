@@ -49,7 +49,12 @@ class pageContoller extends Controller
     function about(){
         $listings = information::where('user_id','=',Auth::id())->get();
         $address = address::where('user_id','=',Auth::id())->get();
-        $cart = cart::where('user_id','=',Auth::id())->where('status','=','pending')->join('items','carts.item_id','=','items.id')->get();
+        $cart = cart::selectRaw('*,carts.id as newid')
+        ->where('user_id','=',Auth::id())
+        ->where('status','!=','cart')
+        ->where('status','!=','done')
+        ->join('items','carts.item_id','=','items.id')
+        ->get();
         return view('about',[
             'listings' => $listings,
             'cart' => $cart,
@@ -78,6 +83,29 @@ class pageContoller extends Controller
         return view('editcart',[   
             'listing' => cart::find($id)
         ]);
+    }
+
+
+    function admin(){
+        $items = item::all();
+        $carts = cart::selectRaw('*,carts.id as newid')
+        ->where('carts.status','=','pending')
+        ->join('items','carts.item_id','=','items.id')
+        ->join('users','carts.user_id','=','users.id')
+        ->join('addresss','users.id','=','addresss.user_id')
+        ->join('informations','users.id','=','informations.user_id')
+        ->rightJoin('cartids','carts.user_id','=','cartids.user_id')
+        ->get();
+        $user = User::where('status','!=','admin')->get();
+        return view('admin',[
+            'items' => $items,
+            'carts' => $carts,
+            'users' => $user
+        ]);
+    }
+
+    function add_address(){
+        return view('address_create');
     }
 
 

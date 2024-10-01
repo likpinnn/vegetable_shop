@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('total_price', 10, 2);
             $table->string('status', 20)->default('cart');
             $table->integer('address_id')->nullable();
+            $table->integer('cart_id');
             $table->timestamps();
         });
     }

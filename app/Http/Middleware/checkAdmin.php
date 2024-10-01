@@ -2,13 +2,12 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\information;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class checkAuth
+class checkAdmin
 {
     /**
      * Handle an incoming request.
@@ -19,10 +18,10 @@ class checkAuth
     {   
         if (!Auth::check()) {
             return redirect()->route('login');
-        }elseif(information::where('user_id',Auth::user()->id)->first() == null && Auth::user()->status != 'admin'){
-             return redirect()->route('information');
+        }elseif(Auth::user()->status != 'admin' ){
+            return redirect()->route('login');
         }
-            
+        
         return $next($request);
     }
 }

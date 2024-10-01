@@ -50,12 +50,8 @@
                         <li>
                            <a class="nav-link" href="{{route('about')}}">{{auth()->user()->email}}</a>
                         </li>
-                        <li class="nav-item">
-                           <form action="{{route('logout')}}" method="post">
-                              @csrf
-                              <button class="nav-link" style="background-color: transparent; border: 0px" type="submit">Logout</button>
-                           </form>
-
+                        <li class="nav-item">                                                 
+                           <a class="nav-link" href="{{route('logout')}}">Logout</a>
                         </li>
                      @else
                         <li class="nav-item">

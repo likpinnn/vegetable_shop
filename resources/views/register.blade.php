@@ -41,7 +41,7 @@
 <body>
     <div class="login-container">
         <h2>Register</h2>
-        <form action="/register/listing" method="POST">
+        <form action="{{route('registerListing')}}" method="POST">
             @csrf
             <input type="email" name="email" placeholder="Email">
             @error('email')

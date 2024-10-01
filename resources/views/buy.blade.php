@@ -58,7 +58,7 @@
 }
 
     window.onload = function() {
-        calculateTotal(100);
+        calculateTotal(100)
     };
 
 </script>

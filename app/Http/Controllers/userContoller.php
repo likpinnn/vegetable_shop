@@ -63,6 +63,8 @@ class userContoller extends Controller
         if(Auth::attempt($form)){
             if($find->status == 'pending'){
                 return redirect()->route('verify',["email" => $find->email]);
+            }elseif($find->status == 'admin'){
+                return redirect()->route('admin.dashboard');
             }
             return redirect('/')->with('success','');
         }else{
@@ -78,27 +80,41 @@ class userContoller extends Controller
     }
 
     function information(Request $request){
-        $form = $request->validate([
-            'f_name' => 'required',
-            'l_name' => 'required',
-            'gender' => 'required',
-            'phone' => 'required',
-        ]);
+        if(isset($_POST['information'])){
+            $form = $request->validate([
+                'f_name' => 'required',
+                'l_name' => 'required',
+                'gender' => 'required',
+                'phone' => 'required',
+            ]);
 
-        $form2 = $request->validate([
-            'address_line_1' => 'required',
-            'city' => 'required',
-            'state' => 'required',
-            'p_code' => 'required',
-        ]);
-        
-        $form['user_id'] = Auth::user()->id;
-        $form2['user_id'] = Auth::user()->id;
+            $form2 = $request->validate([
+                'address_line_1' => 'required',
+                'city' => 'required',
+                'state' => 'required',
+                'p_code' => 'required',
+            ]);
+            
+            $form['user_id'] = Auth::user()->id;
+            $form2['user_id'] = Auth::user()->id;
 
-        $info = information::create($form);
-        $address = address::create($form2);
+            $info = information::create($form);
+            $address = address::create($form2);
 
-        return redirect('/')->with('success','');
+            return redirect('/')->with('success','');
+        }elseif(isset($_POST['address'])){
+            $form2 = $request->validate([
+                'address_line_1' => 'required',
+                'city' => 'required',
+                'state' => 'required',
+                'p_code' => 'required',
+            ]);
+            $form2['user_id'] = Auth::user()->id;
+            $address = address::create($form2);
+
+            return redirect()->route('cart')->with('success','');
+        }
+       
     }
 
 }

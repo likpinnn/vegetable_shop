@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\address;
 use App\Models\cart;
+use App\Models\cartid;
 use App\Models\item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +27,7 @@ class itemController extends Controller
                 $new_mass = $old_mass + $mass;
 
                 cart::where('id','=', $cart_id)->update([
-                    'total_price' => $new_price,
+                   'total_price' => $new_price,
                    'mass' => $new_mass
                 ]);
 
@@ -36,7 +38,8 @@ class itemController extends Controller
                 'user_id'  => Auth::id(),
                 'item_id' => $id,
                 'total_price' => $price,
-                'mass' => $mass
+                'mass' => $mass,
+                'cart_id' => '0'
             ]);
 
             return redirect('/')->with('success','Item added to cart');
@@ -68,7 +71,8 @@ class itemController extends Controller
                 'user_id'  => Auth::id(),
                 'item_id' => $id,
                 'total_price' => $total_price,
-                'mass' => $request->mass
+                'mass' => $request->mass,
+                'cart_id' => '0'
             ]);
 
             return redirect()->route('buy',[$id])->with('success','Item added to cart');
@@ -110,13 +114,90 @@ class itemController extends Controller
     }
 
     function checkout(Request $request){
-        $cart = cart::where('user_id','=',Auth::id());
+        $cartid = cart::selectRaw('MAX(cart_id) as cart_id')->where('user_id',Auth::id())->first();
+        $cart = cart::where('user_id',Auth::id())->where('cart_id','0');
         $address = $request->address;
-        $cart->update([
+
+        if($cartid->cart_id == 0){
+            $cart_id = 1;
+        }else{
+            $cart_id = $cartid->cart_id + 1;
+        }
+
+        $update = $cart->update([
             'status' => 'pending',
             'address_id' => $address,
+            'cart_id' => $cart_id
         ]);
 
+        if($update){
+            $exp = 'Express';
+            $rand_trade = rand(100000,999999);
+            $full_exp = $exp.$rand_trade;
+
+            $check = cartid::where('trade_number',$full_exp)->first();
+            if($check){
+                $rand_trade = rand(100000,999999);
+                $full_exp = $exp.$rand_trade;
+            }
+
+            cartid::create([
+                'user_id' => Auth::id(),
+                'cart_id' => $cart_id,
+                'trade_number' => $full_exp
+            ]);
+        }
+
         return redirect()->route('cart')->with('success','Order placed successfully');
+    }
+
+    function admin_checkout(cart $id){
+        $id->update([
+            'status' => 'completed',
+        ]);
+
+        return redirect()->route('admin.dashboard','#orders')->with('success','completed successfully');
+    }
+
+    function destroy(cart $id){
+        $id->update([
+            'status' => 'done',
+        ]);
+        return redirect()->route('about')->with('success','Item removed from cart');
+    }
+
+    function del_address(address $id){
+        $count = count(address::where('user_id',Auth::id())->get());
+        if($count == 1){
+            return redirect()->back()->with('error','You can not delete the last address');
+        }
+        $id->delete();
+        return redirect()->back();
+    }
+
+    function del_item(item $id){
+        $id->delete();
+        return redirect()->route('admin.dashboard','#products')->with('success','Item deleted successfully');
+    }
+
+    function add_item(Request $request){
+        $form = $request->validate([
+            'p_name' => 'required',
+            'price_mass' => 'required',
+            'price' => 'required',
+        ]);
+
+        if($request->hasFile('image')){
+            $image = $request->file('image');
+            $destinationPath = public_path('images');
+            $imageName = $image->getClientOriginalName();
+            $image->move($destinationPath, $imageName);
+            $form['image']="images/$imageName";
+        }
+
+        item::create($form);
+
+        return redirect()->route('admin.dashboard','#items')->with('success','Item added successfully');
+
     }
 }

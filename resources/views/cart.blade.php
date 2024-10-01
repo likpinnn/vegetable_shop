@@ -59,7 +59,7 @@
                                    </select>
                                 </td> 
                                 <td>
-                                    <button type="button" class="btn btn-primary">Add Address</button>
+                                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{route('address','cart')}}'">Add Address</button>
                                 </td>
                             </tr>
 

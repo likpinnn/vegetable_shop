@@ -54,7 +54,7 @@
 <body>
     <div class="login-container">
         <h2>Verify Email</h2>
-        <form action="/register/verify" method="POST">
+        <form action="{{route('verifyListing')}}" method="POST">
             @csrf
             <input type="email" name="email" placeholder="Email" value="{{$email}}" readonly>
             <input type="number" name="OTP" placeholder="OTP">
@@ -63,4 +63,10 @@
     </div>
 </body>
 </html>
+
+@if (session()->has('error'))
+    <script>
+        alert("{{session('error')}}");
+    </script>
+@endif
 

@@ -99,16 +99,16 @@
           <div class="container" style="padding-bottom: 100px">
              <div class="row">
                 <div class="col-sm-12">
-                   <h1 class="vagetables_taital">Our Vagetables</h1>
-                   <p class="vagetables_text">Passages of Lorem Ipsum available, but the majority have suffered alteration </p>
+                   {{-- <h1 class="vagetables_taital">Our Vagetables</h1>
+                   <p class="vagetables_text">Passages of Lorem Ipsum available, but the majority have suffered alteration </p> --}}
                 </div>
              </div>
              <div class="courses_section_2">
                 <div class="row">
                     @foreach ($listings as $listing)
-                    <div class="col-md-3">
+                    <div class="col-md-3 col-sm-4">
                         <div class="hover01 column">
-                           <a href="{{route('buy',$listing->id)}}"><figure><img src="{{$listing->image}}"></figure></a>
+                           <a href="{{route('buy',$listing->id)}}"><figure><img style="object-fit: cover; height: 250px; width: 100%;" src="{{$listing->image}}"></figure></a>
                         </div>
                         <h3 class="harshal_text">{{$listing->p_name}}</h3>
                         <h3 class="rate_text">RM{{$listing->price}}(per kg)</h3>
@@ -237,9 +237,7 @@
 
 @if (session()->has('cart'))
     <script>
-       window.onload = function() {
-        alert("{{ session('cart') }}");
-       };
+       alert('Item added to cart')
       
     </script>
 @endif
