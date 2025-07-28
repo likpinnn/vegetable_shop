@@ -86,7 +86,7 @@ class pageContoller extends Controller
     }
 
 
-    function admin(){
+    function admin(){   
         $items = item::all();
         $carts = cart::selectRaw('*,carts.id as newid')
         ->where('carts.status','=','pending')

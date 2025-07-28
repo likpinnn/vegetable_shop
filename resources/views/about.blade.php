@@ -28,10 +28,10 @@
                      @endforeach
                    </table>
                    
-                   <table class="table table-bordered" style="width: 80%">
+                   <table class="table table-bordered" style="width: 100%">
                      <tr>
-                        <th style="width: 50%">Address</th>
-                        <th style="width: 10%; text-align: center">Action</th>
+                        <th>Address</th>
+                        <th style="text-align: center">Action</th>
                      </tr>
                      @foreach ($addresses as $address)
                          <tr>

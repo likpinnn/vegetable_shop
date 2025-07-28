@@ -67,36 +67,50 @@
             <br><br><br>
             <div class="container mt-5">
                 <h2 class="text-center mb-5">Products</h2>
-                <table class="table table-striped text-center">
-                    <tr>
-                        <th style="width: 20%">image</th>
-                        <th>Item Name</th>
-                        <th>Mass(per Kg)</th>
-                        <th>Price(RM)</th>
-                        <th>Action</th>
-                    </tr>
-                    @foreach ($items as $item)
-                    <tr>
-                        <td><img style="object-fit: cover; height: 100px; width: 50%;" src="{{$item->image}}" alt="{{ $item->p_name }}"></td>
-                        <td>{{ $item->p_name }}</td>
-                        <td>{{ $item->price_mass }}</td>
-                        <td>{{ $item->price }}</td>
-                        <td>
-                            <a href="{{route('admin.del_item',$item->id)}}">Delete</a>
-                        </td>
-                    </tr>
-                    @endforeach
-                    <form action="{{route('admin.add_item')}}" method="post" enctype="multipart/form-data">
-                        @csrf
+                <div class="table-responsive-sm">
+                    <table class="table table-striped text-center">
                         <tr>
-                            <td><input type="file" class="form-control" name="image"></td>
-                            <td><input type="text" class="form-control" name="p_name" placeholder="Item Name"></td>
-                            <td><input type="text" class="form-control" name="price_mass" placeholder="Mass(per Kg)"></td>
-                            <td><input type="text" class="form-control" name="price" placeholder="Price(RM)"></td>
-                            <td><button type="submit" class="col-12 btn btn-primary">Add</button></td>
+                            <th style="width: 15%">image</th>
+                            <th>Item Name</th>
+                            <th>Mass(per Kg)</th>
+                            <th>Price(RM)</th>
+                            <th>Action</th>
                         </tr>
-                    </form>
-                </table>
+                        @foreach ($items as $item)
+                        <tr>
+                            <td><img class="img-thumbnail border border-0" style="width: 100%;" src="{{$item->image}}" alt="{{ $item->p_name }}"></td>
+                            <td>{{ $item->p_name }}</td>
+                            <td>{{ $item->price_mass }}</td>
+                            <td>{{ $item->price }}</td>
+                            <td>
+                                <a href="{{route('admin.del_item',$item->id)}}">Delete</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </table>
+                </div>
+                
+                <form action="{{route('admin.add_item')}}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-2 col-sm-12">
+                            <input type="file" class="form-control" name="image">
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <input type="text" class="form-control" name="p_name" placeholder="Item Name">
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <input type="number" class="form-control" name="price_mass" placeholder="Mass(per Kg)">
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <input type="number" class="form-control" name="price" placeholder="Price(RM)">
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <button type="submit" class="col-12 btn btn-primary">Add</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </section>
 
         <section id="orders">
@@ -106,7 +120,7 @@
                 <table class="table table-striped text-center">
                     <tr>
                         <th>Trade Number</th>
-                        <th>Image</th>
+                        <th style="width: 10%">Image</th>
                         <th>Item Name</th>
                         <th>Mass(per g)</th>
                         <th>Price(RM)</th>
@@ -117,7 +131,7 @@
                     @foreach ($carts as $cart)
                     <tr>
                         <td>{{ $cart->trade_number }}</td>
-                        <td><img style="object-fit: cover; height: 70px; width: 60%;" src="{{ $cart->image }}" alt="{{ $cart->p_name }}"></td>
+                        <td><img class="img-thumbnail border border-0" style="width: 100%;" src="{{ $cart->image }}" alt="{{ $cart->p_name }}"></td>
                         <td>{{ $cart->p_name }}</td>
                         <td>{{ $cart->mass }}</td>
                         <td>{{ $cart->total_price }}</td>

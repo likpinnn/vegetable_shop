@@ -51,12 +51,9 @@
                   <h3 class="footer_text">Useful links</h3>
                   <div class="footer_menu">
                      <ul>
-                        <li class="active"><a href="index.html"><span class="angle_icon active"><i class="fa fa-arrow-right" aria-hidden="true"></i></span> Home</a></li>
-                        <li><a href="about.html"><span class="angle_icon"><i class="fa fa-arrow-right" aria-hidden="true"></i></span>  About</a></li>
-                        <li><a href="services.html"><span class="angle_icon"><i class="fa fa-arrow-right" aria-hidden="true"></i></span> Services</a></li>
-                        <li><a href="domain.html"><span class="angle_icon"><i class="fa fa-arrow-right" aria-hidden="true"></i></span> Domain</a></li>
-                        <li><a href="testimonial"><span class="angle_icon"><i class="fa fa-arrow-right" aria-hidden="true"></i></span>  Testimonial</a></li>
-                        <li><a href="contact.html"><span class="angle_icon"><i class="fa fa-arrow-right" aria-hidden="true"></i></span>  Contact Us</a></li>
+                        <li class="active"><a href="{{route('index')}}"><span class="angle_icon active"><i class="fa fa-arrow-right" aria-hidden="true"></i></span> Home</a></li>
+                        <li><a href="{{route('cart')}}"><span class="angle_icon"><i class="fa fa-arrow-right" aria-hidden="true"></i></span> Cart</a></li>
+                        <li><a href="{{route('about')}}"><span class="angle_icon"><i class="fa fa-arrow-right" aria-hidden="true"></i></span>  About</a></li>
                      </ul>
                   </div>
                </div>
@@ -66,7 +63,7 @@
                      <ul>
                         <li>
                            <a href="#">
-                           <span class="padding_left_10"><i class="fa fa-map-marker" aria-hidden="true"></i></span>It is a long established fact that a<br> reader will be distracted</a>
+                           <span class="padding_left_10"><i class="fa fa-map-marker" aria-hidden="true"></i></span>Synergy,Bukit Mertajam<br> Pulau Pinang</a>
                         </li>
                         <li>
                            <a href="#">
@@ -75,7 +72,7 @@
                         </li>
                         <li>
                            <a href="#">
-                           <span class="padding_left_10"><i class="fa fa-envelope" aria-hidden="true"></i></span>demo@gmail.com
+                           <span class="padding_left_10"><i class="fa fa-envelope" aria-hidden="true"></i></span>likpin331@gmail.com
                            </a>
                         </li>
                      </ul>
